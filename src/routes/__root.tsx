@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "SOLUSTECH AI" },
+      { name: "description", content: "Solarwise AI monitors solar energy usage, providing insights and recommendations for savings." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "SOLUSTECH AI" },
+      { property: "og:description", content: "Solarwise AI monitors solar energy usage, providing insights and recommendations for savings." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "SOLUSTECH AI" },
+      { name: "twitter:description", content: "Solarwise AI monitors solar energy usage, providing insights and recommendations for savings." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a10dc42f-fa61-428e-9d05-bc864c12d6fe/id-preview-74de231a--af87eed4-6e06-4ca8-a47a-bccf302ef662.lovable.app-1779902114786.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a10dc42f-fa61-428e-9d05-bc864c12d6fe/id-preview-74de231a--af87eed4-6e06-4ca8-a47a-bccf302ef662.lovable.app-1779902114786.png" },
     ],
     links: [
       {
