@@ -101,13 +101,13 @@ function Hero() {
           Entenda, economize e aproveite melhor sua energia solar com inteligência artificial.
         </p>
         <div id="cta" className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="#solucao"
+          <Link
+            to="/dashboard"
             className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground font-medium px-6 py-3 hover:opacity-90 transition shadow-lg shadow-primary/20"
           >
-            Comece agora e descubra onde economizar
+            Abrir painel da minha casa
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
           <a
             href="#como-funciona"
             className="inline-flex items-center gap-2 rounded-full border border-border bg-card font-medium px-6 py-3 hover:bg-muted transition"
