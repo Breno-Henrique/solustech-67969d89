@@ -362,13 +362,13 @@ function FinalPitch() {
             damos sugestões práticas para reduzir desperdícios. É economia, sustentabilidade e
             tecnologia em um só produto.”
           </p>
-          <a
-            href="#cta"
+          <Link
+            to="/dashboard"
             className="mt-10 inline-flex items-center gap-2 rounded-full bg-background text-foreground font-medium px-6 py-3 hover:opacity-90 transition relative"
           >
-            Comece agora
+            Abrir painel
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
