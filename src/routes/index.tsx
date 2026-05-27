@@ -65,12 +65,12 @@ function Nav() {
           <a href="#como-funciona" className="hover:text-foreground transition">Como funciona</a>
           <a href="#beneficios" className="hover:text-foreground transition">Benefícios</a>
         </nav>
-        <a
-          href="#cta"
+        <Link
+          to="/dashboard"
           className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-medium px-4 py-2 hover:opacity-90 transition"
         >
-          Comece agora
-        </a>
+          Abrir painel
+        </Link>
       </div>
     </header>
   );
