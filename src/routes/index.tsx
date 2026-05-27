@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Sun,
   Zap,
@@ -65,12 +65,12 @@ function Nav() {
           <a href="#como-funciona" className="hover:text-foreground transition">Como funciona</a>
           <a href="#beneficios" className="hover:text-foreground transition">Benefícios</a>
         </nav>
-        <a
-          href="#cta"
+        <Link
+          to="/dashboard"
           className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-medium px-4 py-2 hover:opacity-90 transition"
         >
-          Comece agora
-        </a>
+          Abrir painel
+        </Link>
       </div>
     </header>
   );
@@ -101,13 +101,13 @@ function Hero() {
           Entenda, economize e aproveite melhor sua energia solar com inteligência artificial.
         </p>
         <div id="cta" className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="#solucao"
+          <Link
+            to="/dashboard"
             className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground font-medium px-6 py-3 hover:opacity-90 transition shadow-lg shadow-primary/20"
           >
-            Comece agora e descubra onde economizar
+            Abrir painel da minha casa
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
           <a
             href="#como-funciona"
             className="inline-flex items-center gap-2 rounded-full border border-border bg-card font-medium px-6 py-3 hover:bg-muted transition"
@@ -362,13 +362,13 @@ function FinalPitch() {
             damos sugestões práticas para reduzir desperdícios. É economia, sustentabilidade e
             tecnologia em um só produto.”
           </p>
-          <a
-            href="#cta"
+          <Link
+            to="/dashboard"
             className="mt-10 inline-flex items-center gap-2 rounded-full bg-background text-foreground font-medium px-6 py-3 hover:opacity-90 transition relative"
           >
-            Comece agora
+            Abrir painel
             <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
