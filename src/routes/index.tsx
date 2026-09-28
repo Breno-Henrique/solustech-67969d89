@@ -14,8 +14,6 @@ export const Route = createFileRoute("/")({
   component: LoginPage,
 });
 
-const DEMO_USER = "admin@solustech.com";
-const DEMO_PASS = "123456";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -34,14 +32,9 @@ function LoginPage() {
     if (Object.keys(next).length) return;
     setLoading(true);
     setTimeout(() => {
-      if (user.trim().toLowerCase() === DEMO_USER && pass === DEMO_PASS) {
-        sessionStorage.setItem("solustech_auth", "1");
-        navigate({ to: "/dashboard" });
-      } else {
-        setLoading(false);
-        setErrors({ form: "Usuário ou senha incorretos." });
-      }
-    }, 900);
+      sessionStorage.setItem("solustech_auth", "1");
+      navigate({ to: "/dashboard" });
+    }, 600);
   };
 
   return (
@@ -121,8 +114,7 @@ function LoginPage() {
             <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
             <div>
               <p className="font-medium">Acesso de demonstração</p>
-              <p className="text-muted-foreground break-all">Usuário: {DEMO_USER}</p>
-              <p className="text-muted-foreground">Senha: {DEMO_PASS}</p>
+              <p className="text-muted-foreground">Use qualquer e-mail/usuário e qualquer senha.</p>
             </div>
           </div>
         </form>
