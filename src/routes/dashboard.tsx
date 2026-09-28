@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Sun,
@@ -23,8 +23,10 @@ import {
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Painel — SolarIQ" },
+      { title: "Painel — SolusTech" },
       { name: "description", content: "Veja o consumo da sua casa em tempo real, cômodo por cômodo." },
+      { property: "og:title", content: "Painel — SolusTech" },
+      { property: "og:description", content: "Consumo de energia ao vivo, cômodo por cômodo." },
     ],
   }),
   component: DashboardPage,
@@ -217,6 +219,10 @@ function fmtBRL(v: number) {
 // ---------- Page ----------
 
 function DashboardPage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("solustech_auth") !== "1") navigate({ to: "/" });
+  }, [navigate]);
   const [houseId, setHouseId] = useState<string>(HOUSES[0].id);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   // devices state per house, keyed by `${houseId}:${deviceId}`
