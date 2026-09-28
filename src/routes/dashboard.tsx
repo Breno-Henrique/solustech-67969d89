@@ -306,26 +306,30 @@ function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm">
-              <ChevronLeft className="w-4 h-4" /> Início
-            </Link>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 min-h-16 py-2 flex flex-wrap items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              onClick={() => { sessionStorage.removeItem("solustech_auth"); navigate({ to: "/" }); }}
+              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm py-2"
+            >
+              <ChevronLeft className="w-4 h-4" /> Sair
+            </button>
             <div className="h-5 w-px bg-border" />
-            <div className="flex items-center gap-2 font-semibold">
-              <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground grid place-items-center">
+            <div className="flex items-center gap-2 font-semibold truncate">
+              <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground grid place-items-center shrink-0">
                 <Sun className="w-4 h-4" />
               </div>
-              SolarIQ · Painel
+              <span className="truncate">SolusTech<span className="hidden sm:inline"> · Painel</span></span>
             </div>
           </div>
 
           <HouseSelector houseId={houseId} onChange={(id) => { setHouseId(id); setSelectedRoomId(null); }} />
         </div>
       </header>
+
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8 grid gap-6">
         {/* Live stats */}
