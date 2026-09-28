@@ -339,7 +339,7 @@ function DashboardPage() {
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8 grid gap-6">
         {/* Live stats */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <section className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <StatCard
             label="Consumo agora"
             value={fmtW(totalW)}
@@ -370,10 +370,10 @@ function DashboardPage() {
           />
         </section>
 
-        <div className="grid lg:grid-cols-[1fr_360px] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-6 min-w-0">
           {/* Floor plan */}
-          <section className="rounded-3xl border border-border bg-card p-4 md:p-6">
-            <div className="flex items-center justify-between mb-4">
+          <section className="min-w-0 rounded-3xl border border-border bg-card p-3 sm:p-4 md:p-6">
+            <div className="flex items-start justify-between gap-3 mb-4">
               <div>
                 <h2 className="text-lg font-semibold">Planta da casa</h2>
                 <p className="text-sm text-muted-foreground">
@@ -392,7 +392,7 @@ function DashboardPage() {
           </section>
 
           {/* Side panel */}
-          <aside className="grid gap-6 content-start">
+          <aside className="grid gap-6 content-start min-w-0">
             <RoomPanel
               room={selectedRoom}
               live={selectedRoom ? liveByRoom[selectedRoom.id] : 0}
@@ -480,8 +480,8 @@ function FloorPlan({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="w-full overflow-x-auto">
-      <svg viewBox="0 0 1000 640" className="w-full h-auto min-w-[640px]">
+    <div className="w-full min-w-0">
+      <svg viewBox="0 0 1000 640" className="block w-full max-w-full h-auto" preserveAspectRatio="xMidYMid meet">
         {/* outer wall */}
         <rect x="8" y="8" width="984" height="624" rx="18"
           className="fill-muted/40 stroke-border" strokeWidth={2} />
