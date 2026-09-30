@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Sun,
   Zap,
@@ -23,8 +24,10 @@ import {
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Painel — SolarIQ" },
+      { title: "Painel — SolusTech" },
       { name: "description", content: "Veja o consumo da sua casa em tempo real, cômodo por cômodo." },
+      { property: "og:title", content: "Painel — SolusTech" },
+      { property: "og:description", content: "Consumo de energia ao vivo, cômodo por cômodo." },
     ],
   }),
   component: DashboardPage,
@@ -217,6 +220,10 @@ function fmtBRL(v: number) {
 // ---------- Page ----------
 
 function DashboardPage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("solustech_auth") !== "1") navigate({ to: "/" });
+  }, [navigate]);
   const [houseId, setHouseId] = useState<string>(HOUSES[0].id);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   // devices state per house, keyed by `${houseId}:${deviceId}`
@@ -306,20 +313,23 @@ function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Top bar */}
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm">
-              <ChevronLeft className="w-4 h-4" /> Início
-            </Link>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 min-h-16 py-2 flex flex-wrap items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              onClick={() => { sessionStorage.removeItem("solustech_auth"); navigate({ to: "/" }); }}
+              className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm py-2"
+            >
+              <ChevronLeft className="w-4 h-4" /> Sair
+            </button>
             <div className="h-5 w-px bg-border" />
-            <div className="flex items-center gap-2 font-semibold">
-              <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground grid place-items-center">
+            <div className="flex items-center gap-2 font-semibold truncate">
+              <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground grid place-items-center shrink-0">
                 <Sun className="w-4 h-4" />
               </div>
-              SolarIQ · Painel
+              <span className="truncate">SolusTech<span className="hidden sm:inline"> · Painel</span></span>
             </div>
           </div>
 
@@ -327,9 +337,10 @@ function DashboardPage() {
         </div>
       </header>
 
+
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8 grid gap-6">
         {/* Live stats */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <section className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           <StatCard
             label="Consumo agora"
             value={fmtW(totalW)}
@@ -360,10 +371,10 @@ function DashboardPage() {
           />
         </section>
 
-        <div className="grid lg:grid-cols-[1fr_360px] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-6 min-w-0">
           {/* Floor plan */}
-          <section className="rounded-3xl border border-border bg-card p-4 md:p-6">
-            <div className="flex items-center justify-between mb-4">
+          <section className="min-w-0 rounded-3xl border border-border bg-card p-3 sm:p-4 md:p-6">
+            <div className="flex items-start justify-between gap-3 mb-4">
               <div>
                 <h2 className="text-lg font-semibold">Planta da casa</h2>
                 <p className="text-sm text-muted-foreground">
@@ -382,7 +393,7 @@ function DashboardPage() {
           </section>
 
           {/* Side panel */}
-          <aside className="grid gap-6 content-start">
+          <aside className="grid gap-6 content-start min-w-0">
             <RoomPanel
               room={selectedRoom}
               live={selectedRoom ? liveByRoom[selectedRoom.id] : 0}
@@ -469,28 +480,34 @@ function FloorPlan({
   selectedId: string | null;
   onSelect: (id: string) => void;
 }) {
+  const isMobile = useIsMobile();
+  // On phones, transpose the layout into portrait so it uses the screen better
+  const VW = isMobile ? 640 : 1000;
+  const VH = isMobile ? 1000 : 640;
+  const nameFs = isMobile ? 26 : 18;
+  const wattFs = isMobile ? 22 : 14;
+  const dotR = isMobile ? 8 : 5;
+  const dotGap = isMobile ? 24 : 16;
   return (
-    <div className="w-full overflow-x-auto">
-      <svg viewBox="0 0 1000 640" className="w-full h-auto min-w-[640px]">
-        {/* outer wall */}
-        <rect x="8" y="8" width="984" height="624" rx="18"
+    <div className="w-full min-w-0">
+      <svg viewBox={`0 0 ${VW} ${VH}`} className="block w-full max-w-full h-auto" preserveAspectRatio="xMidYMid meet">
+        <rect x="8" y="8" width={VW - 16} height={VH - 16} rx="18"
           className="fill-muted/40 stroke-border" strokeWidth={2} />
-        {rooms.map((r) => {
+        {rooms.map((room) => {
+          const r = isMobile ? { ...room, x: room.y, y: room.x, w: room.h, h: room.w } : room;
           const w = liveByRoom[r.id] ?? 0;
           const intensity = intensityFromWatts(w);
           const isSelected = selectedId === r.id;
-          // Color blends from primary (cool) to destructive (hot) based on watts
           const fill = `color-mix(in oklab, var(--primary) ${10 + intensity * 25}%, var(--card))`;
           const hotOverlay = intensity > 0.6
             ? `color-mix(in oklab, var(--destructive) ${(intensity - 0.5) * 60}%, transparent)`
             : "transparent";
+          const fits = r.name.length * nameFs * 0.56 <= r.w - 28;
+          const lines = fits ? [r.name] : r.name.split(" ");
+          const firstY = r.y + nameFs + 12;
+          const wattY = firstY + (lines.length - 1) * (nameFs + 4) + wattFs + 8;
           return (
-            <g
-              key={r.id}
-              onClick={() => onSelect(r.id)}
-              className="cursor-pointer"
-              style={{ transition: "filter 200ms" }}
-            >
+            <g key={r.id} onClick={() => onSelect(r.id)} className="cursor-pointer" style={{ transition: "filter 200ms" }}>
               <rect
                 x={r.x} y={r.y} width={r.w} height={r.h} rx={14}
                 style={{ fill }}
@@ -499,26 +516,18 @@ function FloorPlan({
               />
               <rect x={r.x} y={r.y} width={r.w} height={r.h} rx={14}
                 style={{ fill: hotOverlay }} pointerEvents="none" />
-              <text x={r.x + 16} y={r.y + 28}
-                className="fill-foreground"
-                style={{ fontSize: 18, fontWeight: 600 }}>
-                {r.name}
+              <text x={r.x + 16} y={firstY} className="fill-foreground" style={{ fontSize: nameFs, fontWeight: 600 }}>
+                {lines.map((l, i) => (
+                  <tspan key={i} x={r.x + 16} dy={i === 0 ? 0 : nameFs + 4}>{l}</tspan>
+                ))}
               </text>
-              <text x={r.x + 16} y={r.y + 52}
-                className="fill-muted-foreground tabular-nums"
-                style={{ fontSize: 14 }}>
+              <text x={r.x + 16} y={wattY} className="fill-muted-foreground tabular-nums" style={{ fontSize: wattFs }}>
                 {fmtW(w)}
               </text>
-              {/* mini device dots */}
               <g>
                 {r.devices.slice(0, 5).map((d, i) => (
-                  <circle
-                    key={d.id}
-                    cx={r.x + 18 + i * 16}
-                    cy={r.y + r.h - 18}
-                    r={5}
-                    fill={d.on ? "var(--primary)" : "var(--border)"}
-                  />
+                  <circle key={d.id} cx={r.x + 20 + i * dotGap} cy={r.y + r.h - 20} r={dotR}
+                    fill={d.on ? "var(--primary)" : "var(--border)"} />
                 ))}
               </g>
             </g>
